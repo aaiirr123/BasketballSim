@@ -1,4 +1,3 @@
-
 public class Player extends Person
 {
   public static enum Position {
@@ -34,8 +33,15 @@ public class Player extends Person
   private int ftm = 0;
   private int assists = 0;
 
-  Player(float[] physical, int[] athletic, int[] skill, Position pos)
+  Player(String name)
   {
+    super(name);
+  }
+
+  Player(String name, Roster.teamSide team,float[] physical, int[] athletic, int[] skill, Position pos)
+  {
+    super(name, team);
+
     this.height = physical[0];
     this.weight = physical[1];
     this.wingSpan = physical[2];
@@ -53,9 +59,20 @@ public class Player extends Person
     this.position = pos;
   }
 
-  getSpeed()
+  public int getSpeed()
   {
     return this.speed;
   }
+
+  public Position getPosistion()
+  {
+    return this.position;
+  }
+
+  public int getDefense()
+  {
+    return this.defense;
+  }
+
 
 }

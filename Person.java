@@ -1,27 +1,38 @@
-public abstract class Person
+public class Person
 {
-  private boolean ejected = false;
-  private String name;
-  private String team;
+  protected boolean ejected = false;
+  protected String name;
+  protected Roster.teamSide team;
+
+  Person()
+  {
+    this.name = "Nameless";
+  }
 
   Person (String name)
   {
-    self.name = name;
+    this.name = name;
   }
 
-  public getName()
+  Person (String name, Roster.teamSide team)
   {
-    return self.name;
+    this.name = name;
+    this.team = team;
   }
 
-  public getTeam()
+  public String getName()
   {
-    return self.team;
+    return this.name;
   }
 
-  public eject()
+  public Roster.teamSide getTeam()
   {
-    ejected = true;
+    return this.team;
+  }
+
+  public void eject()
+  {
+    this.ejected = true;
   }
 
 }
