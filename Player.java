@@ -1,3 +1,5 @@
+import java.lang.Math;
+
 public class Player extends Person
 {
   public static enum Position {
@@ -5,9 +7,9 @@ public class Player extends Person
   }
   private Position position;
   // Physical attributes
-  private float height;
-  private float weight;
-  private float wingSpan;
+  private int height;
+  private int weight;
+  private int wingSpan;
 
   // Athletic attributes
   private int vertical;
@@ -36,9 +38,26 @@ public class Player extends Person
   Player(String name)
   {
     super(name);
+    // Just a name so make random attributes
+    this.height = 72 + (int)(12*(Math.random() - 0.5));
+    this.weight = 72 + (int)(12*(Math.random() - 0.5));
+    this.wingSpan = this.height +  (int)(2*(Math.random() - 0.5));
+
+    this.vertical = genRandomAttribute(25);
+    this.speed = genRandomAttribute(25);
+    this.strength = genRandomAttribute(25);
+
+    this.shooting = genRandomAttribute(25);
+    this.passing = genRandomAttribute(25);
+    this.ballHandling = genRandomAttribute(25);
+    this.defense = genRandomAttribute(25);
+    this.rebound = genRandomAttribute(25);
+
+    this.position = Position.PG;
+
   }
 
-  Player(String name, Roster.teamSide team,float[] physical, int[] athletic, int[] skill, Position pos)
+  Player(String name, Roster.teamSide team, int[] physical, int[] athletic, int[] skill, Position pos)
   {
     super(name, team);
 
@@ -59,6 +78,11 @@ public class Player extends Person
     this.position = pos;
   }
 
+  private int genRandomAttribute(int base)
+  {
+    return base + (int)(75 * (Math.random()));
+  }
+
   public int getSpeed()
   {
     return this.speed;
@@ -72,6 +96,27 @@ public class Player extends Person
   public int getDefense()
   {
     return this.defense;
+  }
+
+  public int getHeight()
+  {
+    return this.height;
+  }
+
+  public boolean shoot()
+  {
+    if (shooting - (int)(50 * Math.random()) < 0)
+    {
+      System.out.println(super.name + " missed his shot");
+      fga++;
+      return false;
+    }
+
+    System.out.println(super.name + " made his shot");
+    fga++;
+    fgm++;
+    return true;
+
   }
 
 

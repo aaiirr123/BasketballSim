@@ -9,9 +9,16 @@ public class gameSim
 
   private double totalTime = quarterTime * 4;
   private boolean running = false;
+  Roster homeTeam;
+  Roster awayTeam;
+  Roster.teamSide ballPosession;
+  Player currentPlayer;
 
-  gameSim()
+
+  gameSim(Roster home, Roster away)
   {
+    this.homeTeam = home;
+    this.awayTeam = away;
     running = true;
   }
 
@@ -25,12 +32,33 @@ public class gameSim
 
   void startGame()
   {
+    System.out.println("Printing Teams");
+    System.out.println(homeTeam.getTeamName());
+    System.out.println(homeTeam.getNumPlayers());
+    for (int i = 0; i < homeTeam.getNumPlayers(); i++)
+    {
+      Player hold = homeTeam.getPlayer(i);
+      System.out.print(hold.getName() + " ");
+      System.out.println(hold.getHeight() + "   " + hold.getDefense());
+
+    }
+    System.out.println(awayTeam.getTeamName());
+    for (int i = 0; i < awayTeam.getNumPlayers(); i++)
+    {
+      Player hold = awayTeam.getPlayer(i);
+      System.out.print(hold.getName() + " ");
+      System.out.println(hold.getHeight() + "   " + hold.getDefense());
+
+    }
     while (running)
     {
+      jumpBall();
+      System.out.printf( ballPosession + " won jump ball");
       for (int i = 1; i <= 4; i++)
       {
         while (totalTime > i * quarterTime)
         {
+          decideAction();
           pause(1000);
 
           totalTime -= tick * 10;
@@ -43,5 +71,89 @@ public class gameSim
     }
   }
 
+  private void jumpBall()
+  {
+    double homeScore;
+    double awayScore;
+
+    Player holder = homeTeam.getOnCourtPlayer(5);
+    homeScore = holder.getHeight() * generateRandomVariance();
+
+    holder = awayTeam.getOnCourtPlayer(5);
+    awayScore = holder.getHeight() * generateRandomVariance();
+
+    if (awayScore - homeScore > 0)
+    {
+      ballPosession = Roster.teamSide.AWAY;
+      currentPlayer = awayTeam.getRandomOnCourt();
+    }
+    else
+    {
+      ballPosession = Roster.teamSide.HOME;
+      currentPlayer = homeTeam.getRandomOnCourt();
+    }
+
+  }
+
+  public static double generateRandomVariance()
+  {
+    return Math.random();
+  }
+
+  private void decideAction()
+  {
+    double rand = Math.random();
+
+    if(rand < .3333)
+    {
+      System.out.println(ballPosession + ": " + currentPlayer.getName() + " is dribbilling the ball");
+    }
+    else if(rand > .3333 && rand < .6666)
+    {
+      shoot();
+    }
+    else
+    {
+      pass();
+    }
+  }
+
+  private void shoot()
+  {
+    if (!currentPlayer.shoot())
+    {
+      rebound();
+    }
+    else
+    {
+      if (ballPosession == Roster.teamSide.HOME) currentPlayer = awayTeam.getRandomOnCourt();
+      else currentPlayer = homeTeam.getRandomOnCourt();
+    }
+  }
+
+  private void rebound()
+  {
+    double rand = Math.random();
+    if ( rand < 0.5 )
+    {
+      ballPosession = Roster.teamSide.HOME;
+      currentPlayer = homeTeam.getRandomOnCourt();
+    }
+    else
+    {
+      ballPosession = Roster.teamSide.AWAY;
+      currentPlayer = awayTeam.getRandomOnCourt();
+    }
+    System.out.println(ballPosession + ":  " + currentPlayer.getName() + " grabs the rebound");
+  }
+
+  private void pass()
+  {
+    System.out.print(currentPlayer.getName() + " passes the ball to ");
+    if (ballPosession == Roster.teamSide.HOME) currentPlayer = awayTeam.getRandomOnCourt();
+    else currentPlayer = homeTeam.getRandomOnCourt();
+
+    System.out.println(currentPlayer.getName());
+  }
 
 }

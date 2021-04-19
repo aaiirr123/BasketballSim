@@ -1,18 +1,20 @@
+import java.util.*;
+import java.io.*;
 
 public class BasketballSim
 {
-  private Roster home = new Roster(Roster.teamSide.HOME, 10, "Dragons");
-  private Roster away = new Roster(Roster.teamSide.AWAY, 10, "Hawks");
-
-  BasketballSim()
+  private Roster home;
+  private Roster away;
+  BasketballSim() throws FileNotFoundException
   {
     System.out.println("Starting Sim");
-    System.out.println(home.getPlayer(1).getName());
-    gameSim game = new gameSim();
+    this.home = new Roster(Roster.teamSide.HOME, 10, "Dragons");
+    this.away = new Roster(Roster.teamSide.AWAY, 10, "Hawks");
+    gameSim game = new gameSim(home, away);
     game.startGame();
   }
 
-  public static void main(String [] args)
+  public static void main(String [] args) throws FileNotFoundException
   {
     BasketballSim Aarons = new BasketballSim();
   }
