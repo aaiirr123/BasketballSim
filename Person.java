@@ -50,4 +50,9 @@ public class Person
     return sc.nextLine();
   }
 
+    public static int genRandomAttribute(int base)
+    {
+      return base + (int)(75 * (Math.random()));
+    }
+
 }

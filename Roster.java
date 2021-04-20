@@ -14,6 +14,7 @@ public class Roster
   private Coach headCoach = new Coach();
   private String teamName;
   private Player currentFive[] = new Player[5];
+  private int teamScore = 0;
 
   Roster(teamSide side, int numPlayers, String teamName) throws FileNotFoundException
   {
@@ -42,6 +43,19 @@ public class Roster
   public Player getOnCourtPlayer(int position)
   {
     return currentFive[position - 1];
+  }
+
+  public Player getOnCourtPlayer(Player.Position position)
+  {
+    int index;
+
+    if (position == Player.Position.PG) index = 1;
+    else if (position == Player.Position.SG) index = 2;
+    else if (position == Player.Position.SF) index = 3;
+    else if (position == Player.Position.PF) index = 4;
+    else index = 5;
+
+    return currentFive[index - 1];
   }
 
   public void subPlayer(int position, int player)
@@ -78,6 +92,21 @@ public class Roster
   {
     int rand = (int)(5 * Math.random()) + 1;
     return getOnCourtPlayer(rand);
+  }
+
+  public Coach getheadCoach()
+  {
+    return this.headCoach;
+  }
+
+  public int getTeamScore()
+  {
+    return this.teamScore;
+  }
+
+  public void madeBasket(int shotType)
+  {
+    this.teamScore += shotType;
   }
 
 }

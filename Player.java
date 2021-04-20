@@ -15,6 +15,7 @@ public class Player extends Person
   private int vertical;
   private int speed;
   private int strength;
+  private int fatigue;
 
   // Skill attributes
   private int shooting;
@@ -43,15 +44,17 @@ public class Player extends Person
     this.weight = 72 + (int)(12*(Math.random() - 0.5));
     this.wingSpan = this.height +  (int)(2*(Math.random() - 0.5));
 
-    this.vertical = genRandomAttribute(25);
-    this.speed = genRandomAttribute(25);
-    this.strength = genRandomAttribute(25);
+    this.vertical = super.genRandomAttribute(25);
+    this.speed = super.genRandomAttribute(25);
+    this.strength = super.genRandomAttribute(25);
+    this.fatigue = super.genRandomAttribute(25);
 
-    this.shooting = genRandomAttribute(25);
-    this.passing = genRandomAttribute(25);
-    this.ballHandling = genRandomAttribute(25);
-    this.defense = genRandomAttribute(25);
-    this.rebound = genRandomAttribute(25);
+
+    this.shooting = super.genRandomAttribute(25);
+    this.passing = super.genRandomAttribute(25);
+    this.ballHandling = super.genRandomAttribute(25);
+    this.defense = super.genRandomAttribute(25);
+    this.rebound = super.genRandomAttribute(25);
 
     this.position = Position.PG;
 
@@ -78,11 +81,6 @@ public class Player extends Person
     this.position = pos;
   }
 
-  private int genRandomAttribute(int base)
-  {
-    return base + (int)(75 * (Math.random()));
-  }
-
   public int getSpeed()
   {
     return this.speed;
@@ -103,20 +101,14 @@ public class Player extends Person
     return this.height;
   }
 
-  public boolean shoot()
+  public int getFatigue()
   {
-    if (shooting - (int)(50 * Math.random()) < 0)
-    {
-      System.out.println(super.name + " missed his shot");
-      fga++;
-      return false;
-    }
+    return this.fatigue;
+  }
 
-    System.out.println(super.name + " made his shot");
-    fga++;
-    fgm++;
-    return true;
-
+  public int getShooting()
+  {
+    return this.shooting;
   }
 
 

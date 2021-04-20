@@ -2,15 +2,15 @@ import java.util.concurrent.TimeUnit;
 
 public class gameSim
 {
-  public static final int courtWidth = 49;
-  public static final int courtLength = 92;
-  public static final int quarterTime = 10 * 60;
+  public static final int quarterTime = 8 * 60;
   public static final double tick = 0.5;
 
-  private double totalTime = quarterTime * 4;
+  private double totalTime = 0;
   private boolean running = false;
   Roster homeTeam;
   Roster awayTeam;
+  Roster offensiveTeam;
+  Roster defensiveTeam;
   Roster.teamSide ballPosession;
   Player currentPlayer;
 
@@ -56,18 +56,21 @@ public class gameSim
       System.out.printf( ballPosession + " won jump ball");
       for (int i = 1; i <= 4; i++)
       {
-        while (totalTime > i * quarterTime)
+        while (totalTime < i * quarterTime)
         {
           decideAction();
-          pause(1000);
+          pause(200);
 
-          totalTime -= tick * 10;
+          totalTime += tick * 40;
           System.out.println("Total Time: " + totalTime);
         }
 
         System.out.println("End of Quarter " + i);
       }
        running = false;
+       System.out.println("homeTeam : " + homeTeam.getTeamScore());
+       System.out.println("awayTeam : " + awayTeam.getTeamScore());
+
     }
   }
 
@@ -85,11 +88,15 @@ public class gameSim
     if (awayScore - homeScore > 0)
     {
       ballPosession = Roster.teamSide.AWAY;
+      offensiveTeam = homeTeam;
+      defensiveTeam = awayTeam;
       currentPlayer = awayTeam.getRandomOnCourt();
     }
     else
     {
       ballPosession = Roster.teamSide.HOME;
+      offensiveTeam = awayTeam;
+      defensiveTeam = homeTeam;
       currentPlayer = homeTeam.getRandomOnCourt();
     }
 
@@ -120,14 +127,28 @@ public class gameSim
 
   private void shoot()
   {
-    if (!currentPlayer.shoot())
+    boolean made = false;
+
+    String shotType = "Set";
+    // Calculate shot quality based on shot type, coach skills, player discipline: out of 100
+    double shotQuality = determineShotQuality(shotType);
+    // Calculate defensive pressure
+    double defensivePressure = determineDefensivePressure();
+
+    if (currentPlayer.getShooting() + shotQuality > defensivePressure)
+    {
+      made = true;
+    }
+
+    if (!made)
     {
       rebound();
     }
     else
     {
-      if (ballPosession == Roster.teamSide.HOME) currentPlayer = awayTeam.getRandomOnCourt();
-      else currentPlayer = homeTeam.getRandomOnCourt();
+      offensiveTeam.madeBasket(2);
+      swapPossesion();
+      currentPlayer = defensiveTeam.getRandomOnCourt();
     }
   }
 
@@ -156,4 +177,29 @@ public class gameSim
     System.out.println(currentPlayer.getName());
   }
 
+  private double determineShotQuality(String shotType)
+  {
+     double coachingBuf = (offensiveTeam.getheadCoach().getOffense());
+     double shotTypeFactor = 1;
+     if (shotType == "Set") shotTypeFactor = 1;
+     if (shotType == "Moving") shotTypeFactor = 0.9;
+
+     return shotTypeFactor * (coachingBuf + currentPlayer.getFatigue());
+  }
+  private double determineDefensivePressure()
+  {
+    double coachingBuf = defensiveTeam.getheadCoach().getDefense();
+    Player defender = defensiveTeam.getOnCourtPlayer(currentPlayer.getPosistion());
+    double individualDefense = defender.getHeight() + defender.getDefense();
+
+    return coachingBuf + individualDefense;
+
+  }
+
+  private void swapPossesion()
+  {
+    Roster holder = offensiveTeam;
+    offensiveTeam = defensiveTeam;
+    defensiveTeam = holder;
+  }
 }
