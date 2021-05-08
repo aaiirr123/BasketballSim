@@ -52,7 +52,7 @@ public class Person
 
     public static int genRandomAttribute(int base)
     {
-      return base + (int)(75 * (Math.random()));
+      return base + (int)(50 * (Math.random()));
     }
 
 }

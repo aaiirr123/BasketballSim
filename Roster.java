@@ -36,6 +36,7 @@ public class Roster
   {
     for (int i = 0; i < 5; i++)
     {
+      team.get(i).setPlayerIndex(i);
       currentFive[i] = team.get(i);
     }
   }

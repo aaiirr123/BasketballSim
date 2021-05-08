@@ -5,6 +5,7 @@ public class Player extends Person
   public static enum Position {
     PG, SG, SF, PF, C
   }
+  private int playerIndex;
   private Position position;
   // Physical attributes
   private int height;
@@ -35,6 +36,16 @@ public class Player extends Person
   private int fta = 0;
   private int ftm = 0;
   private int assists = 0;
+  private int fouls = 0;
+
+  // Tendencies
+  private int pullupMidRange = 30;
+  private int pullupThree = 15;
+  private int layup = 15;
+  private int setMidRange = 10;
+  private int setThree = 15;
+  private int dunk = 15;
+
 
   Player(String name)
   {
@@ -44,17 +55,17 @@ public class Player extends Person
     this.weight = 72 + (int)(12*(Math.random() - 0.5));
     this.wingSpan = this.height +  (int)(2*(Math.random() - 0.5));
 
-    this.vertical = super.genRandomAttribute(25);
-    this.speed = super.genRandomAttribute(25);
-    this.strength = super.genRandomAttribute(25);
-    this.fatigue = super.genRandomAttribute(25);
+    this.vertical = super.genRandomAttribute(50);
+    this.speed = super.genRandomAttribute(50);
+    this.strength = super.genRandomAttribute(50);
+    this.fatigue = super.genRandomAttribute(50);
 
 
-    this.shooting = super.genRandomAttribute(25);
-    this.passing = super.genRandomAttribute(25);
-    this.ballHandling = super.genRandomAttribute(25);
-    this.defense = super.genRandomAttribute(25);
-    this.rebound = super.genRandomAttribute(25);
+    this.shooting = super.genRandomAttribute(50);
+    this.passing = super.genRandomAttribute(50);
+    this.ballHandling = super.genRandomAttribute(50);
+    this.defense = super.genRandomAttribute(50);
+    this.rebound = super.genRandomAttribute(50);
 
     this.position = Position.PG;
 
@@ -109,6 +120,114 @@ public class Player extends Person
   public int getShooting()
   {
     return this.shooting;
+  }
+
+  public void addBlock()
+  {
+    this.blocks++;
+  }
+
+  public void addRebound()
+  {
+    this.rebounds++;
+  }
+
+  public void addSteal()
+  {
+    this.steals++;
+  }
+
+  public void addFGA()
+  {
+    this.fga++;
+  }
+
+  public void addFGM()
+  {
+    this.fgm++;
+  }
+
+  public void addFTA()
+  {
+    this.fta++;
+  }
+
+  public void addFTM()
+  {
+    this.ftm++;
+  }
+
+  public void addThreeFGM()
+  {
+    this.threeFGM++;
+  }
+
+  public void addThreeFGA()
+  {
+    this.threeFGA++;
+  }
+
+  public void addFoul()
+  {
+    this.fouls++;
+  }
+
+  public void setPlayerIndex(int index)
+  {
+    this.playerIndex = index + 1;
+  }
+
+  public int getPlayerIndex()
+  {
+    return this.playerIndex;
+  }
+
+  public gameSim.shotType shotTendency()
+  {
+    int selectionNumber = (int) Math.ceil(100 * Math.random());
+
+    int currentTotal = this.pullupMidRange;
+
+    if (selectionNumber < currentTotal) return gameSim.shotType.PULLUP_MID_RANGE;
+
+    currentTotal += this.pullupThree;
+
+    if (selectionNumber < currentTotal) return gameSim.shotType.PULLUP_THREE;
+
+    currentTotal += this.setMidRange;
+
+    if (selectionNumber < currentTotal) return gameSim.shotType.SET_MID_RANGE;
+
+    currentTotal += this.setThree;
+
+    if (selectionNumber < currentTotal) return gameSim.shotType.SET_THREE;
+
+    currentTotal += this.dunk;
+
+    if (selectionNumber < currentTotal) return gameSim.shotType.DUNK;
+    // base case is layup
+    return gameSim.shotType.LAYUP;
+
+  }
+
+  public void stats()
+  {
+    System.out.print("Points: " + getPoints() + " |");
+    System.out.print("fga " + this.fga + " |");
+    System.out.print("fgm " + this.fgm + " |");
+    System.out.print("3ptA " + this.threeFGA + " |");
+    System.out.print("3ptM " + this.threeFGM + " |");
+    System.out.print("rebounds " + this.rebounds + " |");
+    System.out.print("steals " + this.steals + " |");
+    System.out.print("blocks " + this.blocks + " |");
+    System.out.print("fta " + this.fta + " |");
+    System.out.print("ftm " + this.ftm + " |");
+    System.out.print("assists " + this.assists + " |");
+  }
+
+  public int getPoints()
+  {
+    return (this.threeFGM * 3) + ((this.fgm - this.threeFGM) * 2) + this.ftm;
   }
 
 
