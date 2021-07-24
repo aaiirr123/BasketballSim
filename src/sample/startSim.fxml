@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -67,12 +66,7 @@
       </Text>
       <Polygon fill="#d9e3ed" layoutX="153.0" layoutY="272.0" points="139.00003051757812, -22.999984741210938, 139.00003051757812, -3.66668701171875, 166.33334350585938, -12.333343505859375" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Circle fill="#cde1f4" layoutX="40.0" layoutY="116.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-      <Text layoutX="22.0" layoutY="127.0" onMouseClicked="#exitGame" strokeType="OUTSIDE" strokeWidth="0.0" text="X" wrappingWidth="27.33331298828125">
-         <font>
-            <Font name="Rockwell Extra Bold" size="36.0" />
-         </font>
-      </Text>
-      <Button layoutX="54.0" layoutY="205.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="25.0" prefWidth="63.0" text="X" />
+      <Button layoutX="17.0" layoutY="16.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="25.0" prefWidth="63.0" text="X" />
+      <Button fx:id="viewTeam" layoutX="22.0" layoutY="100.0" mnemonicParsing="false" onAction="#viewTeam" text="view team" />
    </children>
 </AnchorPane>

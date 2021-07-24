@@ -20,6 +20,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+
 public class GameSimController {
     @FXML
     private Text quarterNumber;
@@ -30,6 +32,7 @@ public class GameSimController {
     @FXML private TextArea logText;
     @FXML private Button statsView;
     @FXML private Button pauseButton;
+    @FXML private Button viewTeam;
 
     private Parent root;
     private Scene scene;
@@ -108,6 +111,15 @@ public class GameSimController {
     {
         if(team == 1) scoreTeam1.setText(Integer.toString(score));
         else scoreTeam2.setText(Integer.toString(score));
+    }
+
+    public void viewTeam(ActionEvent event) throws IOException {
+        Stage teamStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/mainMenu.fxml"));
+        Parent root = loader.load();
+        Scene viewTeamScene = new Scene(root);
+        teamStage.setScene(viewTeamScene);
+        teamStage.show();
     }
 
     public void exitGame(ActionEvent event) throws IOException {
