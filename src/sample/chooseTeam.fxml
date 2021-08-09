@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ChooseTeamController">
+   <children>
+      <Text layoutX="264.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Team" />
+      <ChoiceBox fx:id="userTeam" layoutX="77.0" layoutY="89.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="cpuTeam" layoutX="361.0" layoutY="89.0" prefWidth="150.0" />
+      <Button layoutX="274.0" layoutY="265.0" mnemonicParsing="false" onAction="#playGame" text="Start Game" />
+   </children>
+</AnchorPane>

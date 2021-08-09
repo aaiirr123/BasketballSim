@@ -53,30 +53,55 @@ public class TeamReader {
         return new Roster(Roster.teamSide.HOME, 0, "Null", null);
     }
 
-//    public static Roster writeTeam(String fileName) throws IOException {
-//
-//        List<List<String>> rows = Arrays.asList(
-//                Arrays.asList("Jean", "author", "Java"),
-//                Arrays.asList("David", "editor", "Python"),
-//                Arrays.asList("Scott", "editor", "Node.js")
-//        );
-//
-//        FileWriter csvWriter = new FileWriter("new.csv");
-//        csvWriter.append("Name");
-//        csvWriter.append(",");
-//        csvWriter.append("Role");
-//        csvWriter.append(",");
-//        csvWriter.append("Topic");
-//        csvWriter.append("\n");
-//
-//        for (List<String> rowData : rows) {
-//            csvWriter.append(String.join(",", rowData));
-//            csvWriter.append("\n");
-//        }
-//
-//        csvWriter.flush();
-//        csvWriter.close();
-//    }
+    public static void writeTeam(String teamName, String coachName, ArrayList<Player> players) throws IOException {
+
+        FileWriter csvWriter = new FileWriter(teamName);
+        csvWriter.append(teamName + "," + players.size() + "\n");
+        csvWriter.append(coachName + "\n");
+        csvWriter.append("// Name : Position : Height : Weight : WingSpan : Vertical : Speed : Strength : midRange : pullupMidRange : threePoint : pullupThreePoint : drivingLayup : dunkingAbility : freethrowShooting : passing : ballHandling : rebound\n");
+
+
+        for (Player player : players) {
+            List playerLine = Arrays.asList(player.getName() + player.getPosistion() + player.getHeight(),
+                    player.getWeight(), player.getWingSpan(), player.getVertical(), player.getSpeed(),
+                    player.getStrength(), player.getShooting(gameSim.shotType.SET_MID_RANGE),
+                    player.getShooting(gameSim.shotType.PULLUP_MID_RANGE), player.getShooting(gameSim.shotType.SET_THREE),
+                    player.getShooting(gameSim.shotType.PULLUP_THREE), player.getShooting(gameSim.shotType.LAYUP),
+                    player.getShooting(gameSim.shotType.DUNK), player.getShooting(gameSim.shotType.FREE_THROW),
+                    player.getPassingAbility(), player.getBallHandling() ,player.getReboundAbility()
+                    );
+            csvWriter.append(String.join(",",playerLine));
+            csvWriter.append("\n");
+        }
+
+        csvWriter.flush();
+        csvWriter.close();
+    }
+
+    public static void writeRandomTeam(String teamName, String coachName, int numPlayers) throws IOException {
+
+        FileWriter csvWriter = new FileWriter("src/teams/" + teamName);
+        csvWriter.append(teamName + "," + numPlayers + "\n");
+        csvWriter.append(coachName + "\n");
+        csvWriter.append("// Name : Position : Height : Weight : WingSpan : Fatigue : Max Fatigue : Vertical : Speed : Strength : midRange : pullupMidRange : threePoint : pullupThreePoint : drivingLayup : dunkingAbility : freethrowShooting : passing : ballHandling : Defense : rebound\n");
+        for (int i = 0; i < numPlayers; i++) {
+            Player player = new Player(Person.randomName());
+            List playerLine = Arrays.asList(player.getName(), player.getPosistion().toString(), Integer.toString(player.getHeight()),
+                    Integer.toString(player.getWeight()), Integer.toString(player.getWingSpan()), Integer.toString(player.getReboundAbility()),
+                    Integer.toString(player.getMaxFatigue()), Integer.toString(player.getMaxFatigue()), Integer.toString(player.getVertical()),
+                    Integer.toString(player.getSpeed()), Integer.toString(player.getStrength()), Integer.toString(player.getShooting(gameSim.shotType.SET_MID_RANGE)),
+                    Integer.toString(player.getShooting(gameSim.shotType.PULLUP_MID_RANGE)), Integer.toString(player.getShooting(gameSim.shotType.SET_THREE)),
+                    Integer.toString(player.getShooting(gameSim.shotType.PULLUP_THREE)), Integer.toString(player.getShooting(gameSim.shotType.LAYUP)),
+                    Integer.toString(player.getShooting(gameSim.shotType.DUNK)), Integer.toString(player.getShooting(gameSim.shotType.FREE_THROW)),
+                    Integer.toString(player.getPassingAbility()), Integer.toString(player.getBallHandling()), Integer.toString(player.getDefense()) ,Integer.toString(player.getReboundAbility())
+            );
+            csvWriter.append(String.join(",",playerLine));
+            csvWriter.append("\n");
+        }
+
+        csvWriter.flush();
+        csvWriter.close();
+    }
 
     private static Player.Position getParsedPos(String parsedPos) {
         if (parsedPos == "PG") return Player.Position.PG;

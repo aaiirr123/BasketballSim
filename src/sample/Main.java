@@ -9,17 +9,17 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+    private String mediaFolder = "media/";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/sample/mainMenu.fxml"));
-        Image icon = new Image("basketball.jpg");
+        Image icon = new Image(mediaFolder + "basketball.jpg");
         primaryStage.getIcons().add(icon);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Basketball sim");
         primaryStage.show();
-
     }
 
 

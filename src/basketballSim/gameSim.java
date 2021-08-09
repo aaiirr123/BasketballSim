@@ -30,6 +30,7 @@ public class gameSim
     SET_MID_RANGE,
     PULLUP_THREE,
     PULLUP_MID_RANGE,
+    FREE_THROW
   }
 
 
@@ -439,6 +440,10 @@ public class gameSim
     } catch (InterruptedException e) {
         System.err.format("IOException: %s%n", e);
     }
+  }
+
+  public double getTotalTime() {
+    return totalTime;
   }
 
   public void pauseGame()

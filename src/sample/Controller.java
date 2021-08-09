@@ -36,7 +36,7 @@ public class Controller {
     }
 
     public void playGame(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/startSim.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/chooseTeam.fxml"));
         Parent root = loader.load();
         //GameSimController gameSimController = loader.getController();
         loadScreen(root, event);

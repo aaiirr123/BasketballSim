@@ -47,7 +47,7 @@
          </font>
       </Text>
       <TextArea fx:id="logText" editable="false" layoutX="566.0" prefHeight="409.0" prefWidth="171.0" scrollLeft="10.0" scrollTop="10.0" wrapText="true" />
-      <Button fx:id="statsView" layoutX="80.0" layoutY="306.0" mnemonicParsing="false" onAction="#viewStats" text="View Stats" />
+      <Button fx:id="homeTeamStats" layoutX="80.0" layoutY="306.0" mnemonicParsing="false" onAction="#viewStats" text="View Stats" />
       <Button fx:id="pauseButton" layoutX="269.0" layoutY="244.0" mnemonicParsing="false" onAction="#onPause" opacity="0.0" prefHeight="29.0" prefWidth="63.0" />
       <Text fx:id="currentTime" fill="#d9d9d9" layoutX="239.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8:00" textAlignment="CENTER" wrappingWidth="117.34112548828125">
          <font>
@@ -67,6 +67,8 @@
       <Polygon fill="#d9e3ed" layoutX="153.0" layoutY="272.0" points="139.00003051757812, -22.999984741210938, 139.00003051757812, -3.66668701171875, 166.33334350585938, -12.333343505859375" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <Button layoutX="17.0" layoutY="16.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="25.0" prefWidth="63.0" text="X" />
-      <Button fx:id="viewTeam" layoutX="22.0" layoutY="100.0" mnemonicParsing="false" onAction="#viewTeam" text="view team" />
+      <Button fx:id="homeTeamRoster" layoutX="90.0" layoutY="134.0" mnemonicParsing="false" onAction="#viewTeam" text="view team" />
+      <Button fx:id="awayTeamStats" layoutX="447.0" layoutY="306.0" mnemonicParsing="false" onAction="#viewStats" text="View Stats" />
+      <Button fx:id="awayTeamRoster" layoutX="440.0" layoutY="134.0" mnemonicParsing="false" onAction="#viewTeam" text="view team" />
    </children>
 </AnchorPane>

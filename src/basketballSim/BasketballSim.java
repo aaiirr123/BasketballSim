@@ -15,13 +15,13 @@ public class BasketballSim
   private boolean gameFinished = false;
 
   GameSimController controller;
-  public BasketballSim(GameSimController controller) throws FileNotFoundException
+  public BasketballSim(GameSimController controller, Roster userTeam, Roster cpuTeam) throws FileNotFoundException
   {
     System.out.println("Starting Sim");
     this.controller = controller;
-    this.home = TeamReader.getTeam("src/basketballSim/team1.csv");
+    this.home = userTeam;
     // this.home = new Roster(Roster.teamSide.HOME, 10, "Dragons");
-    this.away = new Roster(Roster.teamSide.AWAY, 10, "Hawks", null);
+    this.away = cpuTeam;
     game = new gameSim(home, away, controller);
     System.out.println(this.home.getHeadCoach().getName());
     System.out.println(this.away.getHeadCoach().getName());
@@ -33,10 +33,9 @@ public class BasketballSim
     finalStats();
   }
 
-  public void pauseGame()
+  public double getTime()
   {
-    System.out.println("Trying to pause game");
-    game.pause(50000);
+    return game.getTotalTime();
   }
 
   public void addPointsUI(int team, int score)
@@ -103,5 +102,11 @@ public class BasketballSim
   public boolean isGameFinished()
   {
     return this.gameFinished;
+  }
+
+  public Roster getRoster(int teamSide)
+  {
+    if(teamSide == 1) return this.home;
+    return this.away;
   }
 }

@@ -6,7 +6,9 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Text layoutX="277.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Main Menu" />
-      <Button layoutX="57.0" layoutY="188.0" mnemonicParsing="false" onAction="#playGame" text="play game" />
+      <Text layoutX="270.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Main Menu" />
+      <Button layoutX="51.0" layoutY="119.0" mnemonicParsing="false" onAction="#playGame" text="play game" />
+      <Button layoutX="51.0" layoutY="154.0" mnemonicParsing="false" onAction="#switchToCreateTeam" text="create team" />
+      <Button layoutX="51.0" layoutY="187.0" mnemonicParsing="false" onAction="#playGame" text="simulate season" />
    </children>
 </AnchorPane>

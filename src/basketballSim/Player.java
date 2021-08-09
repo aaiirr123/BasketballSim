@@ -28,6 +28,7 @@ public class Player extends Person
   private int speed;
   private int strength;
   private int fatigue;
+  private int maxFatigue;
 
   // Skill attributes
   private int midRange;
@@ -55,6 +56,7 @@ public class Player extends Person
   private int ftm = 0;
   private int assists = 0;
   private int fouls = 0;
+  private int turnovers = 0;
 
   // Tendencies
   private int pullupMidRangeTendency = 30;
@@ -77,6 +79,7 @@ public class Player extends Person
     this.speed = super.genRandomAttribute(50);
     this.strength = super.genRandomAttribute(50);
     this.fatigue = super.genRandomAttribute(50);
+    this.maxFatigue = this.fatigue;
 
 
 
@@ -108,6 +111,7 @@ public class Player extends Person
     this.speed = athletic[1];
     this.strength = athletic[2];
     this.fatigue = athletic[3];
+    this.maxFatigue = this.fatigue;
 
     this.midRange = skill[0];
     this.pullupMidRange = skill[1];
@@ -128,15 +132,30 @@ public class Player extends Person
 
   public int getSpeed() { return this.speed; }
 
+  public int getStrength() { return this.strength; }
+
+  public int getVertical() { return this.vertical; }
+
   public Position getPosistion() { return this.position; }
 
   public int getDefense() {  return this.defense; }
 
   public int getHeight() { return this.height; }
 
+  public int getWeight() { return this.weight; }
+
+  public int getWingSpan(){ return this.wingSpan; }
+  public int getMaxFatigue()
+  {
+    return this.maxFatigue;
+  }
   public int getFatigue(double currentTime)
   {
-    if (!onCourt) return this.fatigue + (int)(currentTime - this.lastSubOutTime);
+    if (!onCourt)
+    {
+      int tempFatigue = this.fatigue + (int)(currentTime - this.lastSubOutTime);
+      return Math.min(tempFatigue, maxFatigue);
+    }
     else return this.fatigue;
   }
 
@@ -191,6 +210,7 @@ public class Player extends Person
     if (shot == gameSim.shotType.PULLUP_THREE) return this.pullupThreePoint;
     if (shot == gameSim.shotType.SET_THREE) return this.threePoint;
     if (shot == gameSim.shotType.DUNK) return this.dunkingAbility;
+    if (shot == gameSim.shotType.FREE_THROW) return this.freethrowShooting;
     else return this.drivingLayup;
   }
 
@@ -236,8 +256,7 @@ public class Player extends Person
   public void playerSubIn(double currentTime)
   {
     this.subInTime = currentTime;
-    this.fatigue += (int)(currentTime - this.lastSubOutTime);
-    if (this.fatigue > 100) this.fatigue = 100;
+    this.fatigue = getFatigue(currentTime);
     this.onCourt = true;
   }
 
@@ -256,6 +275,20 @@ public class Player extends Person
     System.out.print("ftm " + this.ftm + " |");
     System.out.print("assists " + this.assists + " |");
   }
+  public int getPassingAbility()
+  {
+    return this.passing;
+  }
+
+  public int getBallHandling()
+  {
+    return this.ballHandling;
+  }
+
+  public int getReboundAbility()
+  {
+    return this.rebound;
+  }
 
   public double getMinutes()
   {
@@ -266,6 +299,39 @@ public class Player extends Person
   {
     return (this.threeFGM * 3) + ((this.fgm - this.threeFGM) * 2) + this.ftm;
   }
+
+  public int getStatRebounds() { return this.rebounds; }
+
+  public int getStatDRebounds() { return this.rebounds; }
+
+  public int getStatORebounds() { return this.rebounds; }
+
+  public int getStatAssists() { return this.assists; }
+
+  public int getStatFGA() { return this.fga; }
+
+  public int getStatFGM() { return this.fgm; }
+
+  public int getStatThreeFGA() { return this.threeFGA; }
+
+  public int getStatThreeFGM() { return this.threeFGM; }
+
+  public int getStatFTA() { return this.fta; }
+
+  public int getStatFTM() { return this.ftm; }
+
+  public int getStatBlocks() { return this.blocks; }
+
+  public int getStatSteals() { return this.steals; }
+
+  public int getStatTurnovers() {return this.turnovers; }
+
+
+
+
+
+
+
 
 
 }

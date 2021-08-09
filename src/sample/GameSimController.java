@@ -7,9 +7,11 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import basketballSim.BasketballSim;
+import basketballSim.Roster;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,7 +24,7 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 
-public class GameSimController {
+public class GameSimController implements Initializable {
     @FXML
     private Text quarterNumber;
     @FXML private Text currentTime;
@@ -32,7 +34,11 @@ public class GameSimController {
     @FXML private TextArea logText;
     @FXML private Button statsView;
     @FXML private Button pauseButton;
-    @FXML private Button viewTeam;
+    @FXML private Button homeTeamStats;
+    @FXML private Button awayTeamStats;
+    @FXML private Button homeTeamRoster;
+    @FXML private Button awayTeamRoster;
+
 
     private Parent root;
     private Scene scene;
@@ -42,6 +48,8 @@ public class GameSimController {
     private double quarterTime = 8 * 60;
     private BasketballSim game;
     boolean suspended = false;
+    private Roster userTeam;
+    private Roster cpuTeam;
 
     // this is a log for what happened in the sim
     private ArrayList<String> eventLog = new ArrayList<>();
@@ -49,7 +57,6 @@ public class GameSimController {
 
     public void startGameSim(ActionEvent event) throws FileNotFoundException
     {
-        game = new BasketballSim(this);
         basketballSim = new GameThread(game);
         basketballSim.start();
     }
@@ -94,11 +101,19 @@ public class GameSimController {
     }
     public void viewStats(ActionEvent event) throws IOException
     {
+        Button btn = (Button) event.getSource();
+        int teamSide = 0;
+        if(btn.getId().toString().equals("homeTeamStats")) teamSide = 1;
+        else teamSide = 2;
+
+        Stage teamStage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/finalStats.fxml"));
         Parent root = loader.load();
         FinalStats finalStats = loader.getController();
-        loadScreen(root, event);
-        finalStats.start();
+        finalStats.start(game,teamSide);
+        Scene statsScene = new Scene(root);
+        teamStage.setScene(statsScene);
+        teamStage.show();
     }
 
     public void broadcastMessage(String message)
@@ -114,16 +129,22 @@ public class GameSimController {
     }
 
     public void viewTeam(ActionEvent event) throws IOException {
+        Button btn = (Button) event.getSource();
+        int teamSide = 0;
+        if(btn.getId().toString().equals("homeTeamRoster")) teamSide = 1;
+        else teamSide = 2;
+
         Stage teamStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/mainMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/viewTeam.fxml"));
         Parent root = loader.load();
+        viewTeamController controller1 = loader.getController();
+        controller1.addTeam(game,teamSide);
         Scene viewTeamScene = new Scene(root);
         teamStage.setScene(viewTeamScene);
         teamStage.show();
     }
 
     public void exitGame(ActionEvent event) throws IOException {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/mainMenu.fxml"));
         Parent root = loader.load();
         loadScreen(root, event);
@@ -137,5 +158,13 @@ public class GameSimController {
             basketballSim.resume();
         }
         suspended = !suspended;
+    }
+    public void initTeams(Roster team1, Roster team2) throws FileNotFoundException {
+        this.userTeam = team1;
+        this.cpuTeam = team2;
+        this.game = new BasketballSim(this, team1, team2);
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 }
